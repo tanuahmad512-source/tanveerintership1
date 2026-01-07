@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stride Shoes</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: #f5f7fb;
+        color: #1a1a1a;
+        line-height: 1.6;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 40px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        transition: background 0.3s ease, box-shadow 0.3s ease,
+          padding 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        padding: 6px 40px;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-square {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo-circle {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          #ffffff,
+          #4facfe,
+          #004e92
+        );
+      }
+
+      .logo-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links li {
+        position: relative;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #e4e9ff;
+        padding: 6px 10px;
+        border-radius: 999px;
+        transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .nav-links li::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -4px;
+        width: 0;
+        height: 2px;
+        background: #ffffff;
+        border-radius: 999px;
+        transform: translateX(-50%);
+        transition: width 0.2s ease;
+      }
+
+      .nav-links li:hover::after {
+        width: 70%;
+      }
+
+      main {
+        padding-top: 80px;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-inline: 20px;
+      }
+
+      section {
+        padding: 60px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      section h1,
+      section h2 {
+        margin-bottom: 16px;
+        color: #1e3c72;
+      }
+
+      section p {
+        max-width: 750px;
+        margin-bottom: 12px;
+      }
+
+      .tall {
+        min-height: 80vh;
+      }
+
+      .hero-highlight {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .product-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+      }
+
+      .product-title {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .product-price {
+        font-weight: 600;
+        margin-top: 8px;
+        color: #2a5298;
+      }
+
+      .badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #e4ecff;
+        color: #1e3c72;
+        margin-bottom: 8px;
+      }
+
+      .features-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .feature-item {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature-title {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .review-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        margin-bottom: 16px;
+      }
+
+      .review-name {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .review-stars {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        color: #f4b400;
+      }
+
+      .newsletter {
+        max-width: 420px;
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .newsletter input {
+        flex: 1;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid #ccd4ff;
+        outline: none;
+      }
+
+      .newsletter button {
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: #ffffff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+      }
+
+      .newsletter button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 10px 16px;
+        }
+
+        .nav-links {
+          gap: 10px;
+        }
+
+        .nav-links a {
+          font-size: 0.85rem;
+          padding: 6px 8px;
+        }
+
+        .logo-text {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <div class="logo-container">
+        <div class="logo-square">
+          <div class="logo-circle"></div>
+        </div>
+        <span class="logo-text">Stride Shoes</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#why">Why Stride</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="home" class="tall">
+        <h1>Stride Shoes</h1>
+        <p class="hero-highlight">
+          Comfort, style, and performance in every step.
+        </p>
+        <p>
+          Stride Shoes is a modern footwear brand focused on everyday comfort
+          and sporty performance. From morning walks to late-night runs, our
+          shoes are designed to support your lifestyle with lightweight
+          materials, cushioned soles, and a bold look.
+        </p>
+        <p>
+          Scroll down to explore our featured collections, see why people love
+          Stride, and connect with us for your next pair of go-to shoes.
+        </p>
+      </section>
+
+      <section id="products" class="tall">
+        <h2>Featured Collections</h2>
+        <p>
+          Explore some of the best-selling styles from Stride Shoes. Each pair
+          is built for maximum comfort, durability, and everyday use.
+        </p>
+
+        <div class="product-grid">
+          <div class="product-card">
+            <span class="badge">New Arrival</span>
+            <div class="product-title">Stride Urban Runner</div>
+            <p>
+              Lightweight sneakers for city walks and casual outings with
+              breathable mesh and cushioned insoles.
+            </p>
+            <div class="product-price">₹3,499</div>
+          </div>
+
+          <div class="product-card">
+            <span class="badge">Best Seller</span>
+            <div class="product-title">Stride Flex Pro</div>
+            <p>
+              Flexible sole and soft interior lining designed for long hours on
+              your feet, at work or on the move.
+            </p>
+            <div class="product-price">₹4,199</div>
+          </div>
+
+          <div class="product-card">
+            <span class="badge">Sports</span>
+            <div class="product-title">Stride SprintX</div>
+            <p>
+              Performance running shoes with grip-focused outsole and
+              shock-absorbing midsole for faster runs.
+            </p>
+            <div class="product-price">₹4,799</div>
+          </div>
+
+          <div class="product-card">
+            <span class="badge">Casual</span>
+            <div class="product-title">Stride Everyday Walk</div>
+            <p>
+              Simple and stylish shoes for daily wear, perfect for college,
+              office, or weekend outings.
+            </p>
+            <div class="product-price">₹2,999</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="why" class="tall">
+        <h2>Why Choose Stride Shoes?</h2>
+        <p>
+          Every pair of Stride Shoes is thoughtfully designed to balance
+          comfort, style, and long-lasting quality.
+        </p>
+
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-title">Superior Comfort</div>
+            <p>
+              Cushioned insoles and soft interiors that keep your feet relaxed
+              throughout the day.
+            </p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-title">Durable Build</div>
+            <p>
+              High-quality materials and strong stitching for shoes that last
+              through daily use.
+            </p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-title">Modern Style</div>
+            <p>
+              Clean, trendy designs that match your casual, sporty, and
+              semi-formal outfits.
+            </p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-title">Lightweight Design</div>
+            <p>
+              Engineered to feel light on your feet, making long walks and busy
+              days easier.
+            </p>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 40px">What Our Customers Say</h2>
+
+        <div class="review-card">
+          <div class="review-name">Aman, College Student</div>
+          <div class="review-stars">★★★★★</div>
+          <p>
+            The Stride Everyday Walk shoes are so comfortable for daily use. I
+            wear them to college and the fit is perfect.
+          </p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-name">Priya, Working Professional</div>
+          <div class="review-stars">★★★★★</div>
+          <p>
+            Stride Flex Pro helps me stay on my feet all day at work without
+            pain. Stylish and super comfortable.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" class="tall">
+        <h2>Stay Connected</h2>
+        <p>
+          Want updates on new launches, special offers, and exclusive Stride
+          drops? Enter your email below and join our community.
+        </p>
+
+        <div class="newsletter">
+          <input type="email" placeholder="Enter your email" />
+          <button>Join Stride Club</button>
+        </div>
+
+        <p style="margin-top: 30px">
+          You can also follow Stride Shoes on your favorite social media
+          platforms for style tips, launch news, and behind-the-scenes content.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const navbar = document.getElementById("navbar");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 60) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+  </body>
+</html>
